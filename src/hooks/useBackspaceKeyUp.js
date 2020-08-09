@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 
-const useBackspace = () => {
-  const [pressedKey, setPressedKey] = useState()
+const useBackspaceKeyUp = () => {
+  const [pressedKey, setPressedKey] = useState(undefined)
 
   useEffect(() => {
     const handleBackspace = (e) => {
       if (e.keyCode == 8) {
-        setPressedKey(e.keyCode)
+        setPressedKey({ code: e.code, key: e.key })
       }
     }
     document.addEventListener('keyup', handleBackspace)
@@ -19,4 +19,4 @@ const useBackspace = () => {
   return pressedKey
 }
 
-export { useAlphaKeyUp as default }
+export { useBackspaceKeyUp as default }

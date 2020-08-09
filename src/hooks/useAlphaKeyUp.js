@@ -5,7 +5,7 @@ const useAlphaKeyUp = () => {
 
   useEffect(() => {
     const handleAlphaKeyUp = (e) => {
-      if ((e.keyCode > 64 && e.keyCode < 91) || e.keyCode == 8 || e.keyCode == 13) {
+      if ((e.keyCode > 64 && e.keyCode < 91)) {
         setPressedKey({code:e.code, key:e.key})
       }
     }

@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useReducer, useContext } from 'react'
 import useAlphaKeyUp from '../hooks/useAlphaKeyUp'
+import useBackspaceKeyUp from '../hooks/useBackspaceKeyUp'
+import useEnterKeyUp from '../hooks/useEnterKeyUp'
 import {getWordData} from '../utils/WordData'
 import lettersReducer from '../reducers/letters'
 import LettersContext from '../context/LettersContext'
@@ -18,37 +20,53 @@ const UserInputDisplay = () => {
 }
 
 
-const GameController = () => {
+const GameController = ({wordSet}) => {
   const pressedKey = useAlphaKeyUp()
+  const pressedBackspace = useBackspaceKeyUp()
+  const pressedEnter = useEnterKeyUp()
+  const [score, setScore] = useState(0)
   const { letterDisplay, dispatchDisplay } = useContext(LettersContext)
-  const submitWord = () => {
+
+  const submitWord = (userWord) => {
+    console.log('submit word', wordSet, userWord, wordSet[userWord])
+    
+    // is len atleast 3
+    if(userWord.length  < 3) {
+      return false
+    }
+
+    // is word in word list
+    if(wordSet[userWord] == undefined)
+    {
+      return false
+    }
+
+    // is word already found
+    // 
     return true
   }
 
   useEffect(() => {
+    dispatchDisplay({
+      type: 'REMOVE_LETTER',
+      letter: pressedBackspace
+    })
+  }, [pressedBackspace])
 
-    if(pressedKey.code == undefined) {
-      return
+  useEffect(() => {
+    if(submitWord(letterDisplay.userInput))
+    {
+      dispatchDisplay({
+        type: 'RESET',
+        letter: pressedEnter
+      })
     }
+  }, [pressedEnter])
 
-    let doAction
-
-    if (pressedKey.code === 'Backspace') {
-      doAction = 'REMOVE_LETTER'
-    }
-    else if (pressedKey.code === 'Enter') {
-      if(submitWord()){
-        doAction = 'RESET'
-      }
-    }
-    else {
-      if(letterDisplay.letters.includes(pressedKey.key)) {
-        doAction = 'ADD_LETTER'
-      }
-    }
+  useEffect(() => {
 
     dispatchDisplay({
-      type: doAction,
+      type: 'ADD_LETTER',
       letter: pressedKey.key,
     })
 
@@ -64,8 +82,9 @@ const GameController = () => {
 }
 
 const WordSkillsApp = () => {
+  const wordData = getWordData()
   const [letterDisplay, dispatchDisplay] = useReducer(lettersReducer, {}, ()=> ({
-      letters: getWordData().word,
+      letters: wordData.word,
       userInput: '',
     }))
 
@@ -73,7 +92,7 @@ const WordSkillsApp = () => {
   return (
     <LettersContext.Provider value={{ letterDisplay, dispatchDisplay }}>
       <h1>Title</h1>
-      <GameController/>
+      <GameController wordSet={wordData.subset}/>
       
     </LettersContext.Provider>
   )
