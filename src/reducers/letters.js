@@ -5,6 +5,14 @@ state = {
   userInput: ''
 }
  */
+
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1))
+    ;[array[i], array[j]] = [array[j], array[i]]
+  }
+}
+
 const lettersReducer = (state, action) => {
   // console.log('letter reducer input', action, state)
   if (action.letter == undefined && action.letters == undefined)
@@ -14,7 +22,8 @@ const lettersReducer = (state, action) => {
   }
   switch (action.type) {
     case 'LOAD_WORD':
-      console.log('load word', action)
+      console.log(action.letters.join(""))
+      shuffle(action.letters)
       return {
         letters: action.letters,
         userInput: '',
@@ -32,7 +41,7 @@ const lettersReducer = (state, action) => {
 }
 
 const addLetter = (state, action) => {
-  console.log('add letter', state, action)
+  // console.log('add letter', state, action)
   let letters = state.letters
   let showIndex = state.showIndex
   let userInput = state.userInput
@@ -42,7 +51,7 @@ const addLetter = (state, action) => {
     console.log('add letter', letters[i], letters[i] == action.letter)
     if((letters[i] == action.letter) && showIndex[i] == true)
     {
-      console.log('add letter', true)
+      // console.log('add letter', true)
       showIndex[i] = false
       userInput = state.userInput + action.letter
       inputPresent = true

@@ -3,11 +3,12 @@ import GameController from '../components/GameController'
 import LetterDisplay from '../components/LetterDisplay'
 import UserInputDisplay from '../components/UserInputDisplay'
 import WordListDisplay from '../components/WordListDisplay'
-import { getWordData } from '../utils/WordData'
+import { totalFiles } from '../utils/WordData'
 import lettersReducer from '../reducers/letters'
 import wordListReducer from '../reducers/wordList'
 import GameContext from '../context/GameContext'
 import { Flex, Box, Card, Image, Heading, Link, Text } from 'rebass'
+import axios from 'axios'
 
 
 const MainGame = () => {
@@ -18,18 +19,32 @@ const MainGame = () => {
   const [wordList, dispatchWordList] = useReducer(wordListReducer,{found:[], notfound:[]})
 
   useEffect(() => {
-    let wordData = getWordData()
-    console.log('worddata', wordData)
 
-    dispatchDisplay({
-      type: 'LOAD_WORD',
-      letters: wordData.word
-    })
+    let randomJsonFile = `${Math.floor(Math.random() * totalFiles) + 1 }.json`
 
-    dispatchWordList({
-      type:'LOAD_LIST',
-      notfound: wordData.subset
-    })
+    axios
+      .get(`/worddb/${randomJsonFile}`)
+      .then((response) => {
+        let wordJSON = response.data
+        let wordData = wordJSON[Math.floor(Math.random() * wordJSON.length)]
+
+        dispatchDisplay({
+          type: 'LOAD_WORD',
+          letters: wordData.word,
+        })
+
+        dispatchWordList({
+          type: 'LOAD_LIST',
+          notfound: wordData.subset,
+        })
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error)
+      })
+      .finally(function () {
+        // always executed
+      })    
 
   }, [])
   return (
@@ -44,7 +59,7 @@ const MainGame = () => {
       >
         <Flex mx={2}>
           <Box width={1 / 2} px={2}>
-            <WordListDisplay title="Words Not Found" words={wordList.notfound} redact={true} />
+            {/* <WordListDisplay title="Words Not Found" words={wordList.notfound} redact={true} /> */}
           </Box>
           <Box my="auto" width={1} px={2}>
             <GameController />
