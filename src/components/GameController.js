@@ -1,14 +1,8 @@
 import React, { useState, useEffect, useReducer, useContext } from 'react'
-import Header from '../components/Header'
 import useAlphaKeyUp from '../hooks/useAlphaKeyUp'
 import useBackspaceKeyUp from '../hooks/useBackspaceKeyUp'
 import useEnterKeyUp from '../hooks/useEnterKeyUp'
-import { getWordData } from '../utils/WordData'
-import lettersReducer from '../reducers/letters'
 import GameContext from '../context/GameContext'
-import WordListContext from '../context/WordListContext'
-import { Flex, Box, Card, Image, Heading, Link, Text } from 'rebass'
-
 
 
 const GameController = () => {

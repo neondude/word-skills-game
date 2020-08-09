@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useReducer, useContext } from 'react'
-import GameContext from '../context/GameContext'
 import { Flex, Box, Card, Image, Heading, Link, Text } from 'rebass'
 
 
