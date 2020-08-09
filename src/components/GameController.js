@@ -5,33 +5,36 @@ import useBackspaceKeyUp from '../hooks/useBackspaceKeyUp'
 import useEnterKeyUp from '../hooks/useEnterKeyUp'
 import { getWordData } from '../utils/WordData'
 import lettersReducer from '../reducers/letters'
-import LettersContext from '../context/LettersContext'
+import GameContext from '../context/GameContext'
+import WordListContext from '../context/WordListContext'
 import { Flex, Box, Card, Image, Heading, Link, Text } from 'rebass'
 
 
 
-const GameController = ({ wordSet }) => {
+const GameController = () => {
   const pressedKey = useAlphaKeyUp()
   const pressedBackspace = useBackspaceKeyUp()
   const pressedEnter = useEnterKeyUp()
   const [score, setScore] = useState(0)
-  const { letterDisplay, dispatchDisplay } = useContext(LettersContext)
+  const { letterDisplay, dispatchDisplay } = useContext(GameContext)
+  const { wordList, dispatchWordList } = useContext(GameContext)
 
   const submitWord = (userWord) => {
-    console.log('submit word', wordSet, userWord, wordSet[userWord])
-
+    // console.log('submit word',wordList)
     // is len atleast 3
     if (userWord.length < 3) {
       return false
     }
 
-    // is word in word list
-    if (wordSet[userWord] == undefined) {
+    // word not in list
+    if (!wordList.notfound.includes(userWord)) {
       return false
     }
 
-    // is word already found
-    //
+    dispatchWordList({
+      type: 'WORD_FOUND',
+      word: userWord,
+    })
     return true
   }
 
@@ -59,11 +62,6 @@ const GameController = ({ wordSet }) => {
   }, [pressedKey])
 
   return <></>
-  // return (
-  //   <div>
-  //     {pressedKey.code != undefined && <div>{pressedKey.code}</div>}
-  //   </div>
-  // )
 }
 
 export {GameController as default}

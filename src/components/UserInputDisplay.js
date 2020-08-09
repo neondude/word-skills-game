@@ -5,18 +5,18 @@ import useBackspaceKeyUp from '../hooks/useBackspaceKeyUp'
 import useEnterKeyUp from '../hooks/useEnterKeyUp'
 import { getWordData } from '../utils/WordData'
 import lettersReducer from '../reducers/letters'
-import LettersContext from '../context/LettersContext'
+import GameContext from '../context/GameContext'
 import { Flex, Box, Card, Image, Heading, Link, Text } from 'rebass'
 
 
 
 const UserInputDisplay = () => {
-  const { letterDisplay } = useContext(LettersContext)
+  const { letterDisplay } = useContext(GameContext)
 
   return (
     <>
       <Box my={6} minHeight={128}>
-        {(letterDisplay.userInput.length > 0) ? (
+        {(letterDisplay.userInput != undefined && letterDisplay.userInput.length > 0) ? (
           <Text
             sx={{
               textTransform: 'uppercase',

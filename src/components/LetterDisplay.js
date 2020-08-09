@@ -5,12 +5,16 @@ import useBackspaceKeyUp from '../hooks/useBackspaceKeyUp'
 import useEnterKeyUp from '../hooks/useEnterKeyUp'
 import { getWordData } from '../utils/WordData'
 import lettersReducer from '../reducers/letters'
-import LettersContext from '../context/LettersContext'
+import GameContext from '../context/GameContext'
 import { Flex, Box, Card, Image, Heading, Link, Text, Button } from 'rebass'
 
 
 const LetterDisplay = () => {
-  const { letterDisplay } = useContext(LettersContext)
+  const { letterDisplay } = useContext(GameContext)
+
+  useEffect(()=>{
+    console.log('game controller', letterDisplay)
+  },[letterDisplay])
   return (
     <>
       <Flex

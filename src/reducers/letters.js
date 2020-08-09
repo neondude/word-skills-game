@@ -1,14 +1,15 @@
 const lettersReducer = (state, action) => {
-  // console.log(action)
-  // console.log(state)
-  if (action.letter == undefined)
+  // console.log('letter reducer input', action, state)
+  if (action.letter == undefined && action.letters == undefined)
   {
+    // console.log('skip reduce', action, action.letters != undefined)
     return state
   }
   switch (action.type) {
     case 'LOAD_WORD':
+      console.log('load word', action)
       return {
-        letters: state.letters,
+        letters: action.letters,
         userInput: ''
       }
     case 'ADD_LETTER':
