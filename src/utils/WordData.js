@@ -8,6 +8,7 @@ const wordJSON = {
 
 }
 
+const totalWords = 29874
 
 export const getWordData = () => {
   return wordJSON

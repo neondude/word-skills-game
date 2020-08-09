@@ -1,3 +1,10 @@
+/*
+state = {
+  letters: [],
+  showIndex: [true,]
+  userInput: ''
+}
+ */
 const lettersReducer = (state, action) => {
   // console.log('letter reducer input', action, state)
   if (action.letter == undefined && action.letters == undefined)
@@ -10,7 +17,8 @@ const lettersReducer = (state, action) => {
       console.log('load word', action)
       return {
         letters: action.letters,
-        userInput: ''
+        userInput: '',
+        showIndex: new Array(6).fill(true)
       }
     case 'ADD_LETTER':
       return addLetter(state, action)
@@ -24,40 +32,71 @@ const lettersReducer = (state, action) => {
 }
 
 const addLetter = (state, action) => {
+  console.log('add letter', state, action)
   let letters = state.letters
-  if (letters.includes(action.letter)) {
-    letters.splice(state.letters.indexOf(action.letter), 1)
+  let showIndex = state.showIndex
+  let userInput = state.userInput
+
+  let inputPresent = false
+  for(let i = 0; i < letters.length; i++) {
+    console.log('add letter', letters[i], letters[i] == action.letter)
+    if((letters[i] == action.letter) && showIndex[i] == true)
+    {
+      console.log('add letter', true)
+      showIndex[i] = false
+      userInput = state.userInput + action.letter
+      inputPresent = true
+      break;
+    }
   }
-  else {
-    return state
-  }
-  return {
-    letters,
-    userInput: state.userInput + action.letter,
-  }
+
+  console.log('add letter', letters, showIndex, userInput)
+  return inputPresent
+    ? {
+        letters,
+        showIndex,
+        userInput,
+      }
+    : state
 }
 
 const removeLetter = (state) => {
   if (state.userInput.length == 0) {
     return state
   }
-  let lastLetter = state.userInput.charAt(state.userInput.length - 1)
+
   let letters = state.letters
-  letters.push(lastLetter)
-  let userInput = state.userInput.slice(0, -1)
+  let showIndex = state.showIndex
+  let userInput = state.userInput
+  let lastLetter = state.userInput.charAt(state.userInput.length - 1)
+
+  for (let i = 0; i < letters.length; i++) {
+    if (letters[i] == lastLetter && showIndex[i] == false) {
+      console.log('remove letter', true)
+      showIndex[i] = true
+      userInput =userInput.slice(0, -1)
+      break
+    }
+  }
+  let inputPresent = true
+
+  // let lastLetter = state.userInput.charAt(state.userInput.length - 1)
+  // let letters = state.letters
+  // letters.push(lastLetter)
+  // let userInput = state.userInput.slice(0, -1)
 
   return {
-    letters,
-    userInput
-  }
+        letters,
+        showIndex,
+        userInput,
+      }
 }
 
 const resetDisplay = (state) => {
-  let userInputLetters = state.userInput.split("")
-  let letters = state.letters.concat(userInputLetters)
   return {
-    letters,
-    userInput: ''
+    letters: state.letters,
+    userInput: '',
+    showIndex: new Array(6).fill(true)
   }
 }
 

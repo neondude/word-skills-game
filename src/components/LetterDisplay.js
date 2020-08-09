@@ -6,9 +6,7 @@ import { Flex, Box, Card, Image, Heading, Link, Text, Button } from 'rebass'
 const LetterDisplay = () => {
   const { letterDisplay } = useContext(GameContext)
 
-  useEffect(()=>{
-    console.log('game controller', letterDisplay)
-  },[letterDisplay])
+
   return (
     <>
       <Flex
@@ -19,8 +17,11 @@ const LetterDisplay = () => {
         minHeight={128}
       >
         {letterDisplay.letters.map((letter, index) => {
-          return (
-            <Box key={index} width={1 / 6} px={2}>
+          let showLetter = letterDisplay.showIndex[index]
+          if (!showLetter){
+            return null
+          }
+          return <Box key={index} width={1 / 6} px={2}>
               <Box
                 m="auto"
                 p={4}
@@ -41,7 +42,8 @@ const LetterDisplay = () => {
                 </Text>
               </Box>
             </Box>
-          )
+          
+          
         })}
       </Flex>
     </>
