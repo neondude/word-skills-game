@@ -34,7 +34,7 @@ const MainGame = () => {
     let randomJsonFile = `${Math.floor(Math.random() * totalFiles) + 1 }.json`
 
     axios
-      .get(`/worddb/${randomJsonFile}`)
+      .get(`/word-skills-game/worddb/${randomJsonFile}`)
       .then((response) => {
         let wordJSON = response.data
         let wordData = wordJSON[Math.floor(Math.random() * wordJSON.length)]
