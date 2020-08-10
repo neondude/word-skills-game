@@ -23,7 +23,7 @@ const MainGame = () => {
     history.push({
       pathname:'/result',
       state: {
-        value:"hello"
+        value:wordList.notfound
       }
     })
 

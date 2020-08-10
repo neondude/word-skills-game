@@ -7,7 +7,12 @@ const ResultPage = () => {
   return (
     <div>
       <h1>Words not found</h1>
-      {history.location.state.value}
+      <ul>
+        {history.location.state.value.map((word, index)=>{
+          return <li key={index}>{word}</li>
+        })}
+
+      </ul>
     </div>
   )
 }
