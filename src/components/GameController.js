@@ -13,10 +13,12 @@ const GameController = () => {
   const { score, dispatchScore } = useContext(GameContext)
   const { letterDisplay, dispatchDisplay } = useContext(GameContext)
   const { wordList, dispatchWordList } = useContext(GameContext)
+  const { setHighlightWord } = useContext(GameContext)
 
   const submitWord = (userWord) => {
     // console.log('submit word',wordList)
     // is len atleast 3
+    setHighlightWord(userWord)
     if (userWord.length < 3) {
       return false
     }

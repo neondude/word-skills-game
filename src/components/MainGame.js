@@ -18,6 +18,7 @@ const MainGame = () => {
   const [letterDisplay, dispatchDisplay] = useReducer(lettersReducer,{letters: [], userInput: ''})
   const [wordList, dispatchWordList] = useReducer(wordListReducer,{found:[], notfound:[]})
   const [score, dispatchScore] = useReducer(scoreReducer, {score: 0})
+  const [ highlightWord, setHighlightWord ] = useState("")
 
   const changePage = ()=>{
     history.push({
@@ -68,6 +69,7 @@ const MainGame = () => {
           dispatchWordList,
           score,
           dispatchScore,
+          setHighlightWord,
         }}
       >
         <Flex mx={2}>
@@ -118,6 +120,7 @@ const MainGame = () => {
               title="Words Found"
               words={wordList.found}
               redact={false}
+              highlight={highlightWord}
             />
           </Box>
         </Flex>

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useReducer, useContext } from 'react'
 import { Flex, Box, Card, Image, Heading, Link, Text } from 'rebass'
 
 
-const WordListDisplay = ({title, words, redact}) => {
+const WordListDisplay = ({ title, words, redact, highlight }) => {
   words.sort((a, b) => {
     return b.length - a.length
   })
@@ -22,6 +22,7 @@ const WordListDisplay = ({title, words, redact}) => {
       </Text>
       <div>
         {words.map((word, index) => {
+          let isHighlight =  (word == highlight)
           return (
             <div key={index}>
               <Text
@@ -30,7 +31,8 @@ const WordListDisplay = ({title, words, redact}) => {
                 }}
                 fontSize={4}
                 fontWeight={600}
-                // bg={'Aqua'}
+                color={isHighlight && 'White'}
+                bg={isHighlight && 'DodgerBlue'}
               >
                 {word}
               </Text>
