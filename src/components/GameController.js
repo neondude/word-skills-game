@@ -3,13 +3,14 @@ import useAlphaKeyUp from '../hooks/useAlphaKeyUp'
 import useBackspaceKeyUp from '../hooks/useBackspaceKeyUp'
 import useEnterKeyUp from '../hooks/useEnterKeyUp'
 import GameContext from '../context/GameContext'
+import { getScore } from '../utils/ScoreUtil'
 
 
 const GameController = () => {
   const pressedKey = useAlphaKeyUp()
   const pressedBackspace = useBackspaceKeyUp()
   const pressedEnter = useEnterKeyUp()
-  const [score, setScore] = useState(0)
+  const { score, dispatchScore } = useContext(GameContext)
   const { letterDisplay, dispatchDisplay } = useContext(GameContext)
   const { wordList, dispatchWordList } = useContext(GameContext)
 
@@ -25,6 +26,10 @@ const GameController = () => {
       return false
     }
 
+    dispatchScore({
+      type: 'ADD_SCORE',
+      wordScore: getScore(userWord.length)
+    })
     dispatchWordList({
       type: 'WORD_FOUND',
       word: userWord,

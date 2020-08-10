@@ -15,23 +15,29 @@ const WordListDisplay = ({title, words, redact}) => {
           textTransform: 'uppercase',
         }}
         fontSize={4}
+        fontWeight={600}
         color="white"
       >
         {words.length + ' ' + title}
       </Text>
-      <Flex flexDirection="column">
+      <div>
         {words.map((word, index) => {
           return (
-            <Box key={index} p={1} width={1 / 2}>
-              <Text>
-                {word.split('').map((letter) => {
-                  return redact? 'x':letter
-                })}
+            <div key={index}>
+              <Text
+                sx={{
+                  textTransform: 'uppercase',
+                }}
+                fontSize={4}
+                fontWeight={600}
+                // bg={'Aqua'}
+              >
+                {word}
               </Text>
-            </Box>
+            </div>
           )
         })}
-      </Flex>
+      </div>
     </>
   )
 }

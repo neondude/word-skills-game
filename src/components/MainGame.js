@@ -7,16 +7,27 @@ import { totalFiles } from '../utils/WordData'
 import lettersReducer from '../reducers/letters'
 import wordListReducer from '../reducers/wordList'
 import GameContext from '../context/GameContext'
-import { Flex, Box, Card, Image, Heading, Link, Text } from 'rebass'
+import { Flex, Box, Card, Image, Heading, Link, Text, Button } from 'rebass'
 import axios from 'axios'
+import scoreReducer from '../reducers/score'
+import { useHistory } from 'react-router-dom'
 
 
 const MainGame = () => {
-  const [letterDisplay, dispatchDisplay] = useReducer(
-    lettersReducer,
-    {letters: [], userInput: ''}
-  )
+  let history = useHistory()
+  const [letterDisplay, dispatchDisplay] = useReducer(lettersReducer,{letters: [], userInput: ''})
   const [wordList, dispatchWordList] = useReducer(wordListReducer,{found:[], notfound:[]})
+  const [score, dispatchScore] = useReducer(scoreReducer, {score: 0})
+
+  const changePage = ()=>{
+    history.push({
+      pathname:'/result',
+      state: {
+        value:"hello"
+      }
+    })
+
+  }
 
   useEffect(() => {
 
@@ -55,11 +66,47 @@ const MainGame = () => {
           dispatchDisplay,
           wordList,
           dispatchWordList,
+          score,
+          dispatchScore,
         }}
       >
         <Flex mx={2}>
           <Box width={1 / 2} px={2}>
-            {/* <WordListDisplay title="Words Not Found" words={wordList.notfound} redact={true} /> */}
+            <Text
+              py={3}
+              sx={{
+                textTransform: 'uppercase',
+              }}
+              fontWeight={600}
+              fontSize={4}
+              color="white"
+            >
+              {wordList.notfound.length} words not found
+            </Text>
+            <Text
+              py={3}
+              sx={{
+                textTransform: 'uppercase',
+              }}
+              fontSize={6}
+              fontWeight={600}
+              color="white"
+            >
+              Score: {score.score}
+            </Text>
+            <Button
+              sx={{
+                borderStyle: 'solid',
+                borderRadius: '1em',
+                transition: 'all 1s',
+                background: 'white',
+                color: 'black',
+              }}
+              mx={2}
+              onClick={changePage}
+            >
+              End Game
+            </Button>
           </Box>
           <Box my="auto" width={1} px={2}>
             <GameController />
@@ -67,7 +114,11 @@ const MainGame = () => {
             <UserInputDisplay />
           </Box>
           <Box width={1 / 2} px={2}>
-            <WordListDisplay title="Words Found" words={wordList.found} redact={false} />
+            <WordListDisplay
+              title="Words Found"
+              words={wordList.found}
+              redact={false}
+            />
           </Box>
         </Flex>
       </GameContext.Provider>

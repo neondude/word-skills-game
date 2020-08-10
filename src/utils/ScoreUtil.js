@@ -1,18 +1,17 @@
 
-const getScore = (wordLen) => {
+export const getScore = (wordLen) => {
   switch(wordLen) {
     case 3:
-      return 3
-    case 4:
-      return 4
-    case 5:
       return 5
+    case 4:
+      return 10
+    case 5:
+      return 20
     case 6:
-      return 6
+      return 100
     default:
       return 0
 
   }
 }
 
-export {getScore as default}
